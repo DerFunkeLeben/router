@@ -1,0 +1,19 @@
+{
+  "name": "@onpoint-dev/mpa-router",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onpoint-dev/mpa-router.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onpoint-dev/mpa-router/issues"
+  },
+  "homepage": "https://github.com/onpoint-dev/mpa-router#readme"
+}
