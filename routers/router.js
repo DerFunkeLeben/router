@@ -116,7 +116,7 @@ class Router {
 
   __searchSlideScen(slide) {
     let foundScen = '';
-    const nonScenNames = ['ribs', 'menu', 'config', 'dop_slides', 'еще что-то'];
+    const nonScenNames = ['ribs', 'menu', 'config', 'dop_slides','video', 'еще что-то'];
     const isDefault = this.__allPres[this.__currPres]['default'].includes(slide);
     if (isDefault) return 'default';
     Object.keys(this.__allPres[this.__currPres]).forEach((scen) => {
