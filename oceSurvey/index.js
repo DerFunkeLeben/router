@@ -44,7 +44,10 @@ function putSurveyAnswersToStorage(survey) {
  */
 const findSelectedQuestionAndAnswerInSTATISTIC = (value) => {
   let selectedAnswer = null;
-  const selectedQuestion = window.STATISTIC.filter((question) =>
+  const questionsArray = Object.keys(window.STATISTIC).reduce((acc, slide) => {
+    return acc.concat(window.STATISTIC[slide]);
+  }, []);
+  const selectedQuestion = questionsArray.filter((question) =>
     question.answers.some((answer) => {
       if (answer.id === value) {
         selectedAnswer = answer;
