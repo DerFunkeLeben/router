@@ -116,7 +116,7 @@ class Router {
 
   __searchSlideScen(slide) {
     let foundScen = '';
-    const nonScenNames = ['ribs', 'menu', 'config', 'dop_slides','video', 'еще что-то'];
+    const nonScenNames = ['ribs', 'menu', 'config', 'dop_slides', 'video', 'еще что-то'];
     const isDefault = this.__allPres[this.__currPres]['default'].includes(slide);
     if (isDefault) return 'default';
     Object.keys(this.__allPres[this.__currPres]).forEach((scen) => {
@@ -137,7 +137,7 @@ class Router {
     console.log('Router.setStoreItem', key, value);
     let newStore = {};
     if (this.__slideStore === null) newStore[key] = value;
-    else newStore = { ...JSON.parse(this.__slideStore), [key]: value };
+    else newStore = { ...this.__slideStore, [key]: value };
     this.__sessionStorageAdapter.setItem('slideStore', JSON.stringify(newStore));
     this.__slideStore = newStore;
     return newStore;
@@ -145,8 +145,8 @@ class Router {
 
   getStoreItem(key) {
     if (this.__slideStore)
-      if (key) return JSON.parse(this.__slideStore)[key];
-      else return JSON.parse(this.__slideStore);
+      if (key) return this.__slideStore[key];
+      else return this.__slideStore;
     else {
       console.log('Store еще не был создан');
       return null;
