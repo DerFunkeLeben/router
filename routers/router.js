@@ -185,14 +185,14 @@ class Router {
 
   __goNeighbour(slideProp, ribProp) {
     try {
-      if (slideProp) return this.to(slideProp, this.__currScen, this.__currPres);
-      if (!ribProp) return console.warn('next slide is null');
-
-      if (typeof ribProp === 'string' && ribProp.match('function')) {
-        const tergetRib = this.__getNextSlideByRib(ribProp);
-        if (tergetRib === null) return this.shakeSlide();
-        return this.to(tergetRib.slide, tergetRib.scene, tergetRib.pres);
-      } else return this.to(ribProp.slide, ribProp.scene, ribProp.pres);
+      if (ribProp) {
+        if (typeof ribProp === 'string' && ribProp.match('function')) {
+          const tergetRib = this.__getNextSlideByRib(ribProp);
+          if (tergetRib === null) return this.shakeSlide();
+          return this.to(tergetRib.slide, tergetRib.scene, tergetRib.pres);
+        } else return this.to(ribProp.slide, ribProp.scene, ribProp.pres);
+      } else if (slideProp) return this.to(slideProp, this.__currScen, this.__currPres);
+      else return console.warn('next slide is null');
     } catch (error) {
       this.__navError = error;
       console.error(error);
