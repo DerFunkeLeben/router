@@ -12,7 +12,7 @@ class Router {
     this.__currScen = settings.currScen || document.location.hash.replace('#', '');
     this.__currSlide = settings.currSlide;
     this.__isDopSlide = this.__sessionStorageAdapter.getItem('isDopSlide') || false;
-    this.__slideStore = this.__sessionStorageAdapter.getItem('slideStore');
+    this.__slideStore = JSON.parse(this.__sessionStorageAdapter.getItem('slideStore')) || {};
     this.__getSlideInfo();
     this.__consolePassword = ['up', 'up', 'down', 'up', 'down', 'down'];
     this.__consolePasswordInput = [];
