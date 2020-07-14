@@ -18,10 +18,11 @@ function getDataFromGlobalState() {
     if (window.configData.state !== '') {
       const globalState = JSON.parse(window.configData.state);
       Object.keys(globalState).forEach((key) => {
-        const isObjectOrArray = globalState[key][0] === '[' || globalState[key][0] === '{';
-
-        if (isObjectOrArray) sessionStorage.setItem(key, JSON.stringify(JSON.stringify(globalState[key])));
-        else sessionStorage.setItem(key, JSON.stringify(globalState[key]));
+        if (typeof globalState[key] === 'string') {
+          sessionStorage.setItem(key, globalState[key]);
+        } else {
+          sessionStorage.setItem(key, JSON.stringify(globalState[key]));
+        }
       });
     } else return console.log('Global state is empty');
   } catch (error) {
@@ -34,6 +35,7 @@ function updateGlobalStateAndRouter() {
   getDataFromConfig();
   getDataFromGlobalState();
   getSurveyJSON(window.router.__currPres);
+  window.router.__currScen = window.router.__sessionStorageAdapter.getItem('currScen');
   window.router.__getSlideInfo();
 }
 
@@ -92,13 +94,13 @@ class RouterOCE extends Router {
   __shareSessionStorage() {
     if (this.__isChrome) return;
     const globalState = {};
-    Object.keys(sessionStorage).forEach(
-      (key) =>
-        (globalState[key] =
-          sessionStorage[key][0] === '[' || sessionStorage[key][0] === '{'
-            ? JSON.parse(sessionStorage[key])
-            : sessionStorage[key]),
-    );
+    Object.keys(sessionStorage).forEach((key) => {
+      const firstElem = sessionStorage[key][0];
+      globalState[key] =
+        firstElem === '[' || firstElem === '{' || firstElem === '"'
+          ? JSON.parse(sessionStorage[key])
+          : sessionStorage[key];
+    });
     window.CLMPlayer.saveState(JSON.stringify(globalState));
   }
 
@@ -126,7 +128,7 @@ class RouterOCE extends Router {
   __routerAdapter(slide, scen, presentation) {
     const newSlide = `${presentation}_${slide}`;
     const slideCLMName = `01_${newSlide}.html`;
-    super.__setCurrScen(scen);
+    this.__setCurrScen(scen);
     if (this.__isChrome) return (document.location = `/${presentation}/${newSlide}/${slideCLMName}#${scen}`);
     else {
       const sequenceId = this.__slideIdVocablury[slideCLMName];
