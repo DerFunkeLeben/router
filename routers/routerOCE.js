@@ -121,7 +121,7 @@ class RouterOCE extends Router {
   }
 
   __blockCLMSwipe() {
-    if (!this.__isChrome) window.CLMPlayer.defineNoSwipeRegion('region', 0, 0, 768, 576);
+    if (!this.__isChrome) window.CLMPlayer.defineNoSwipeRegion('region', 0, 0, 1024, 768);
     else console.log('you are in comp');
   }
 
