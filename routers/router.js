@@ -18,6 +18,7 @@ class Router {
     this.__consolePassword = ['up', 'up', 'down', 'up', 'down', 'down'];
     this.__consolePasswordInput = [];
     this.__consoleActive = JSON.parse(this.__sessionStorageAdapter.getItem('consoleActive')) || false;
+    this.__returnFromAnchor = false;
   }
 
   sessionStorageAdapter() {
@@ -204,7 +205,11 @@ class Router {
   to(slide, scen, presentation) {
     if (slide === this.__currSlide && scen === this.__currScen) return;
     const pres = presentation ? presentation : this.__currPres;
-    this.__historyPush();
+    if (this.__returnFromAnchor) {
+      this.__returnFromAnchor = false;
+    } else {
+      this.__historyPush();
+    }
     this.__routerAdapter(slide, scen, pres);
   }
 
@@ -247,7 +252,19 @@ class Router {
     const anchor = anchors.pop();
     const anchorsJSON = JSON.stringify(anchors);
     this.__sessionStorageAdapter.setItem('anchors', anchorsJSON);
-    this.__historyPop();
+
+    const historyArr = JSON.parse(this.__sessionStorageAdapter.getItem('historyArr'));
+    const reversedHistory = historyArr.reverse();
+    const anchorIndex = reversedHistory.findIndex((historyStep) => {
+      const { slide, scen, pres } = historyStep;
+      const historyStepStr = `${slide},${scen},${pres}`;
+      return historyStepStr === anchor;
+    });
+    if (anchorIndex !== -1) {
+      const newHistory = reversedHistory.slice(anchorIndex + 1).reverse();
+      this.__sessionStorageAdapter.setItem('historyArr', JSON.stringify(newHistory));
+    }
+    this.__returnFromAnchor = true;
     this.to(...anchor.split(','));
   }
 
@@ -279,7 +296,7 @@ class Router {
   }
 
   __historyPush() {
-    if (this.__isDopSlide) return;
+    // if (this.__isDopSlide) return;
     let slideArrEl = {
       slide: this.__currSlide,
       scen: this.__currScen,
