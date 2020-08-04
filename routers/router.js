@@ -13,6 +13,8 @@ class Router {
     this.__currSlide = settings.currSlide;
     this.__isDopSlide = this.__sessionStorageAdapter.getItem('isDopSlide') || false;
     this.__slideStore = JSON.parse(this.__sessionStorageAdapter.getItem('slideStore')) || {};
+    this.__customBranch = JSON.parse(this.__sessionStorageAdapter.getItem('customBranch')) || [];
+    this.__addCustomBranchToPres();
     this.__getSlideInfo();
     this.__consolePassword = ['up', 'up', 'down', 'up', 'down', 'down'];
     this.__consolePasswordInput = [];
@@ -24,6 +26,24 @@ class Router {
       getItem: (item) => sessionStorage.getItem(item),
       setItem: (item, key) => sessionStorage.setItem(item, key),
     };
+  }
+
+  setCustomBranch(customBranch) {
+    this.__saveCustomBranch(customBranch);
+    this.__addCustomBranchToPres();
+  }
+
+  __saveCustomBranch(customBranch) {
+    this.__sessionStorageAdapter.setItem('customBranch', JSON.stringify(customBranch));
+    this.__customBranch = customBranch;
+  }
+
+  __getCustomBranch() {
+    return this.__customBranch;
+  }
+
+  __addCustomBranchToPres() {
+    this.__allPres[this.__currPres]['customBranch'] = this.__getCustomBranch();
   }
 
   __redefinitionConsole() {
