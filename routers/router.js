@@ -9,9 +9,10 @@ class Router {
     this.__allPres = settings.allPres;
     this.__defaultScene = 'default';
     this.__currPres = settings.currPres;
-    this.__currScen = settings.currScen || document.location.hash.replace('#', '');
+    this.__currScen =
+      settings.currScen || this.__sessionStorageAdapter.getItem('currScen') || document.location.hash.replace('#', '');
     this.__currSlide = settings.currSlide;
-    this.__isDopSlide = this.__sessionStorageAdapter.getItem('isDopSlide') || false;
+    this.__isDopSlide = JSON.parse(this.__sessionStorageAdapter.getItem('isDopSlide')) || false;
     this.__slideStore = JSON.parse(this.__sessionStorageAdapter.getItem('slideStore')) || {};
     this.__customBranch = JSON.parse(this.__sessionStorageAdapter.getItem('customBranch')) || [];
     this.__addCustomBranchToPres();
@@ -19,6 +20,7 @@ class Router {
     this.__consolePassword = ['up', 'up', 'down', 'up', 'down', 'down'];
     this.__consolePasswordInput = [];
     this.__consoleActive = JSON.parse(this.__sessionStorageAdapter.getItem('consoleActive')) || false;
+    this.__returnFromAnchor = false;
   }
 
   sessionStorageAdapter() {
@@ -182,11 +184,9 @@ class Router {
   }
 
   __setCurrScen(scen) {
-    if (scen === 'dop_slides') this.__sessionStorageAdapter.setItem('isDopSlide', true);
-    else {
-      this.__sessionStorageAdapter.setItem('isDopSlide', false);
-      this.__sessionStorageAdapter.setItem('currScen', scen);
-    }
+    if (/^dop_.*/.test(scen)) this.__sessionStorageAdapter.setItem('isDopSlide', true);
+    else this.__sessionStorageAdapter.setItem('isDopSlide', false);
+    this.__sessionStorageAdapter.setItem('currScen', scen);
   }
 
   goNextSlide() {
@@ -225,7 +225,11 @@ class Router {
   to(slide, scen, presentation) {
     if (slide === this.__currSlide && scen === this.__currScen) return;
     const pres = presentation ? presentation : this.__currPres;
-    this.__historyPush();
+    if (this.__returnFromAnchor) {
+      this.__returnFromAnchor = false;
+    } else {
+      this.__historyPush();
+    }
     this.__routerAdapter(slide, scen, pres);
   }
 
@@ -268,6 +272,19 @@ class Router {
     const anchor = anchors.pop();
     const anchorsJSON = JSON.stringify(anchors);
     this.__sessionStorageAdapter.setItem('anchors', anchorsJSON);
+
+    const historyArr = JSON.parse(this.__sessionStorageAdapter.getItem('historyArr'));
+    const reversedHistory = historyArr.reverse();
+    const anchorIndex = reversedHistory.findIndex((historyStep) => {
+      const { slide, scen, pres } = historyStep;
+      const historyStepStr = `${slide},${scen},${pres}`;
+      return historyStepStr === anchor;
+    });
+    if (anchorIndex !== -1) {
+      const newHistory = reversedHistory.slice(anchorIndex + 1).reverse();
+      this.__sessionStorageAdapter.setItem('historyArr', JSON.stringify(newHistory));
+    }
+    this.__returnFromAnchor = true;
     this.to(...anchor.split(','));
   }
 
@@ -299,6 +316,7 @@ class Router {
   }
 
   __historyPush() {
+    // if (this.__isDopSlide) return;
     let slideArrEl = {
       slide: this.__currSlide,
       scen: this.__currScen,
