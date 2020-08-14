@@ -21,7 +21,7 @@ class Router {
     this.__consolePasswordInput = [];
     this.__consoleActive = JSON.parse(this.__sessionStorageAdapter.getItem('consoleActive')) || false;
     this.__returnFromAnchor = false;
-    this.__flagList = settings.flagsForRouter;
+    this.__flagList = settings.routerFlags;
   }
 
   sessionStorageAdapter() {
@@ -41,12 +41,8 @@ class Router {
     this.__customBranch = customBranch;
   }
 
-  __getCustomBranch() {
-    return this.__customBranch;
-  }
-
   __addCustomBranchToPres() {
-    this.__allPres[this.__currPres]['customBranch'] = this.__getCustomBranch();
+    if (this.__currPres) this.__allPres[this.__currPres]['customBranch'] = this.__customBranch;
   }
 
   __redefinitionConsole() {
@@ -199,6 +195,7 @@ class Router {
       this.__goNeighbour(this.__prevSlide, this.__reverseRib);
     } else {
       if (this.__flagList.includes('SWIPE_RIGHT_WORK_WITH_SCEN_NO_HISTORY')) {
+        if (!this.__prevSlide) return console.warn('prev slide is null');
         this.to(this.__prevSlide, this.__currScen, this.__currPres);
       } else {
         const { slide, scen, pres } = this.__historyPop();
