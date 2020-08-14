@@ -21,6 +21,7 @@ class Router {
     this.__consolePasswordInput = [];
     this.__consoleActive = JSON.parse(this.__sessionStorageAdapter.getItem('consoleActive')) || false;
     this.__returnFromAnchor = false;
+    this.__flagList = settings.flagsForRouter;
   }
 
   sessionStorageAdapter() {
@@ -194,9 +195,16 @@ class Router {
   }
 
   goPrevSlide() {
-    const { slide, scen, pres } = this.__historyPop();
-    if (this.__reverseRib) this.__goNeighbour(this.__prevSlide, this.__reverseRib);
-    else this.__routerAdapter(slide, scen, pres);
+    if (this.__reverseRib) {
+      this.__goNeighbour(this.__prevSlide, this.__reverseRib);
+    } else {
+      if (this.__flagList.includes('SWIPE_RIGHT_WORK_WITH_SCEN_NO_HISTORY')) {
+        this.to(this.__prevSlide, this.__currScen, this.__currPres);
+      } else {
+        const { slide, scen, pres } = this.__historyPop();
+        this.__routerAdapter(slide, scen, pres);
+      }
+    }
   }
 
   __getNextSlideByRib(ribProp) {
