@@ -21,7 +21,7 @@ class Router {
     this.__consolePasswordInput = [];
     this.__consoleActive = JSON.parse(this.__sessionStorageAdapter.getItem('consoleActive')) || false;
     this.__returnFromAnchor = false;
-    this.__flagList = settings.routerFlags;
+    this.__flagList = settings.routerFlags|| [];
   }
 
   sessionStorageAdapter() {
