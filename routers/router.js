@@ -21,7 +21,7 @@ class Router {
     this.__consolePasswordInput = [];
     this.__consoleActive = JSON.parse(this.__sessionStorageAdapter.getItem('consoleActive')) || false;
     this.__returnFromAnchor = false;
-    this.__flagList = settings.routerFlags|| [];
+    this.__flagList = settings.routerFlags || [];
   }
 
   sessionStorageAdapter() {
@@ -211,7 +211,7 @@ class Router {
   __goNeighbour(slideProp, ribProp) {
     try {
       if (ribProp) {
-        if (typeof ribProp === 'string' && ribProp.match('function')) {
+        if (typeof ribProp === 'string' && (ribProp.match('function') || ribProp.match('=> {'))) {
           const tergetRib = this.__getNextSlideByRib(ribProp);
           if (!tergetRib)
             if (slideProp) return this.to(slideProp, this.__currScen, this.__currPres);
