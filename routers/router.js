@@ -46,9 +46,13 @@ class Router {
   }
 
   __redefinitionConsole() {
-    if (!this.__isChrome) {
-      const consoleDiv = document.querySelector('#console');
-      const textDiv = consoleDiv.querySelector('#text');
+    const consoleDiv = document.querySelector('#console');
+    const textDiv = consoleDiv.querySelector('#text');
+    if (!consoleDiv || !textDiv)
+      console.warn(
+        'ВНИМАНИЕ\n в layout.jade отсутсвутет #config и/или #text\n это приведет к невозможности вызвать консоль на планшете!',
+      );
+    if (!this.__isChrome && consoleDiv && textDiv) {
       const iscrollConsole = new window.IScroll(consoleDiv);
       console.log = (...args) => {
         textDiv.innerHTML += `\n<p>${JSON.stringify(args)}<p>`;
