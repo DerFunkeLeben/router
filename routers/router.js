@@ -55,6 +55,11 @@ class Router {
     if (!this.__isChrome && consoleDiv && textDiv) {
       const iscrollConsole = new window.IScroll(consoleDiv);
       console.log = (...args) => {
+        try {
+          textDiv.innerHTML += `\n<p>${JSON.stringify(args)}<p>`;
+        } catch (error) {
+          console.log('прости кажется там ссылка на DOM-элемент, не могу ее отрендерить');
+        }
         textDiv.innerHTML += `\n<p>${JSON.stringify(args)}<p>`;
         iscrollConsole.refresh();
       };
