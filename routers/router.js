@@ -46,11 +46,20 @@ class Router {
   }
 
   __redefinitionConsole() {
-    if (!this.__isChrome) {
-      const consoleDiv = document.querySelector('#console');
-      const textDiv = consoleDiv.querySelector('#text');
+    const consoleDiv = document.querySelector('#console');
+    const textDiv = consoleDiv.querySelector('#text');
+    if (!consoleDiv || !textDiv)
+      console.warn(
+        'ВНИМАНИЕ\n в layout.jade отсутсвутет #сonsole и/или #text\n это приведет к невозможности вызвать консоль на планшете!',
+      );
+    if (!this.__isChrome && consoleDiv && textDiv) {
       const iscrollConsole = new window.IScroll(consoleDiv);
       console.log = (...args) => {
+        try {
+          textDiv.innerHTML += `\n<p>${JSON.stringify(args)}<p>`;
+        } catch (error) {
+          console.log('прости кажется там ссылка на DOM-элемент, не могу ее отрендерить');
+        }
         textDiv.innerHTML += `\n<p>${JSON.stringify(args)}<p>`;
         iscrollConsole.refresh();
       };
