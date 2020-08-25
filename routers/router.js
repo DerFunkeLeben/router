@@ -211,7 +211,7 @@ class Router {
   __goNeighbour(slideProp, ribProp) {
     try {
       if (ribProp) {
-        if (typeof ribProp === 'string' && (ribProp.match('function') || ribProp.match('=> {'))) {
+        if (typeof ribProp === 'string' && (ribProp.match('function') || ribProp.match('() =>'))) {
           const tergetRib = this.__getNextSlideByRib(ribProp);
           if (!tergetRib)
             if (slideProp) return this.to(slideProp, this.__currScen, this.__currPres);
