@@ -9,6 +9,7 @@ class Router {
     this.__allPres = settings.allPres;
     this.__defaultScene = 'default';
     this.__currPres = settings.currPres;
+    this.__currPresConfig = this.__allPres[this.__currPres];
     this.__currScen =
       settings.currScen || this.__sessionStorageAdapter.getItem('currScen') || document.location.hash.replace('#', '');
     this.__currSlide = settings.currSlide;
@@ -42,7 +43,7 @@ class Router {
   }
 
   __addCustomBranchToPres() {
-    if (this.__currPres) this.__allPres[this.__currPres]['customBranch'] = this.__customBranch;
+    if (this.__currPres) this.__currPresConfig.scenario['customBranch'] = this.__customBranch;
   }
 
   __redefinitionConsole() {
@@ -98,12 +99,12 @@ class Router {
       //режим верстки
       if (this.__currPres === '') return;
       //определение принадлежности слайда установленной ветке
-      if (!this.__allPres[this.__currPres][this.__currScen].includes(this.__currSlide)) {
+      if (!this.__currPresConfig.scenario[this.__currScen].includes(this.__currSlide)) {
         this.__currScen = this.__searchCurrSlideScen();
         this.__setCurrScen(this.__currScen);
         console.warn('найдена новая ветка');
       }
-      this.__currSlideIndex = this.__allPres[this.__currPres][this.__currScen].indexOf(this.__currSlide);
+      this.__currSlideIndex = this.__currPresConfig.scenario[this.__currScen].indexOf(this.__currSlide);
       this.__nextSlide = this.__getNextSlide();
       this.__prevSlide = this.__getPrevSlide();
       this.__rib = this.__getRib('next');
@@ -119,37 +120,35 @@ class Router {
   }
 
   getCurrScenArr() {
-    return this.__allPres[this.__currPres][this.__currScen];
+    return this.__currPresConfig.scenario[this.__currScen];
   }
 
   __getNextSlide() {
-    const nextSlide = this.__allPres[this.__currPres][this.__currScen][this.__currSlideIndex + 1];
+    const nextSlide = this.__currPresConfig.scenario[this.__currScen][this.__currSlideIndex + 1];
     if (nextSlide !== undefined) return nextSlide;
     else return null;
   }
 
   __getPrevSlide() {
-    const prevSlide = this.__allPres[this.__currPres][this.__currScen][this.__currSlideIndex - 1];
+    const prevSlide = this.__currPresConfig.scenario[this.__currScen][this.__currSlideIndex - 1];
     if (prevSlide !== undefined) return prevSlide;
     else return null;
   }
 
   __getRib(direction) {
     const ribName = this.__currSlide;
-    const rib = this.__allPres[this.__currPres].ribs[ribName]
-      ? this.__allPres[this.__currPres].ribs[ribName][direction]
-      : null;
+    const rib = this.__currPresConfig.ribs[ribName] ? this.__currPresConfig.ribs[ribName][direction] : null;
     return rib;
   }
 
   __searchSlideScen(slide) {
     let foundScen = '';
     const nonScenNames = ['ribs', 'menu', 'config', 'dop_slides', 'video', 'еще что-то'];
-    const isDefault = this.__allPres[this.__currPres]['default'].includes(slide);
+    const isDefault = this.__currPresConfig.scenario['default'].includes(slide);
     if (isDefault) return 'default';
-    Object.keys(this.__allPres[this.__currPres]).forEach((scen) => {
+    Object.keys(this.__currPresConfig.scenario).forEach((scen) => {
       if (nonScenNames.includes(scen)) return;
-      if (this.__allPres[this.__currPres][scen].includes(slide)) foundScen = scen;
+      if (this.__currPresConfig.scenario[scen].includes(slide)) foundScen = scen;
     });
     if (foundScen === '') {
       console.warn(`scen for ${slide} not found`);
@@ -372,8 +371,8 @@ class Router {
   }
 
   goToFirstSlide() {
-    if (!this.__allPres[this.__currPres]) return console.log('verstka mode');
-    const targetSlide = this.__allPres[this.__currPres][this.__defaultScene][0];
+    if (!this.__currPresConfig.scenario) return console.log('verstka mode');
+    const targetSlide = this.__currPresConfig.scenario[this.__defaultScene][0];
     this.__sessionStorageAdapter.clear();
     this.to(targetSlide, this.__defaultScene);
   }
