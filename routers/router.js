@@ -22,6 +22,7 @@ class Router {
     this.__consolePasswordInput = [];
     this.__consoleActive = JSON.parse(this.__sessionStorageAdapter.getItem('consoleActive')) || false;
     this.__returnFromAnchor = false;
+    this.__returnFromPres = false;
     this.__flagList = settings.routerFlags || [];
   }
 
@@ -238,11 +239,16 @@ class Router {
   to(slide, scen, presentation) {
     if (slide === this.__currSlide && scen === this.__currScen) return;
     const pres = presentation ? presentation : this.__currPres;
-    if (this.__returnFromAnchor) {
+    if (this.__returnFromPres) {
+      this.__historyPop()
+    }
+    if (this.__returnFromAnchor || this.__returnFromPres) {
       this.__returnFromAnchor = false;
+      this.__returnFromPres = false;
     } else {
       this.__historyPush();
     }
+
     this.__routerAdapter(slide, scen, pres);
   }
 
@@ -324,6 +330,7 @@ class Router {
     const scene = this.__sessionStorageAdapter.getItem('prevPresScene');
     const pres = this.__sessionStorageAdapter.getItem('prevPresentation');
     if (slide && scene && pres) {
+      this.__returnFromPres = true;
       this.to(slide, scene, pres);
     }
   }
