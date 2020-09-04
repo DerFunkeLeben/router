@@ -125,7 +125,7 @@ class Router {
   }
 
   __getNextSlideOnCustomBranchOff(){
-    const scenario = router.__allPres[router.__currPres].customBranch;
+    const scenario = router.__allPres[router.__currPres].scenario.customBranch;
     const prevSlides = JSON.parse(sessionStorage.getItem('historyArr'));
     const prevSlide = prevSlides[prevSlides.length - 1];
     const prevSlideIndex = scenario.indexOf(prevSlide.slide);
