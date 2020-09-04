@@ -124,6 +124,15 @@ class Router {
     return this.__currPresConfig.scenario[this.__currScen];
   }
 
+  __getNextSlideOnCustomBranchOff(){
+    const scenario = router.__allPres[router.__currPres].customBranch;
+    const prevSlides = JSON.parse(sessionStorage.getItem('historyArr'));
+    const prevSlide = prevSlides[prevSlides.length - 1];
+    const prevSlideIndex = scenario.indexOf(prevSlide.slide);
+    const nextSlide = scenario[prevSlideIndex + 1];
+    return nextSlide
+  }
+
   __getNextSlide() {
     const nextSlide = this.__currPresConfig.scenario[this.__currScen][this.__currSlideIndex + 1];
     if (nextSlide !== undefined) return nextSlide;
