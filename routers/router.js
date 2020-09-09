@@ -62,7 +62,6 @@ class Router {
         } catch (error) {
           console.log('прости кажется там ссылка на DOM-элемент, не могу ее отрендерить');
         }
-        textDiv.innerHTML += `\n<p>${JSON.stringify(args)}<p>`;
         iscrollConsole.refresh();
       };
       console.error = (...args) => {
@@ -124,13 +123,13 @@ class Router {
     return this.__currPresConfig.scenario[this.__currScen];
   }
 
-  __getNextSlideOnCustomBranchOff(){
+  __getNextSlideOnCustomBranchOff() {
     const scenario = router.__allPres[router.__currPres].scenario.customBranch;
     const prevSlides = JSON.parse(sessionStorage.getItem('historyArr'));
     const prevSlide = prevSlides[prevSlides.length - 1];
     const prevSlideIndex = scenario.indexOf(prevSlide.slide);
     const nextSlide = scenario[prevSlideIndex + 1];
-    return nextSlide
+    return nextSlide;
   }
 
   __getNextSlide() {
@@ -249,7 +248,7 @@ class Router {
     if (slide === this.__currSlide && scen === this.__currScen) return;
     const pres = presentation ? presentation : this.__currPres;
     if (this.__returnFromPres) {
-      this.__historyPop()
+      this.__historyPop();
     }
     if (this.__returnFromAnchor || this.__returnFromPres) {
       this.__returnFromAnchor = false;
