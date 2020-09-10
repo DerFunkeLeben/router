@@ -1,4 +1,4 @@
-const Router = require('@onpoint-dev/mpa-router/routers/router');
+const Router = require('./router');
 
 class RouterCTMobile extends Router {
   constructor(settings) {
@@ -7,19 +7,21 @@ class RouterCTMobile extends Router {
   }
 
   __routerAdapter(slide, scene, presentation) {
-    const slideOrder = this.__slidesToOrderRel[slide];
-    if (slideOrder === undefined)
-      if (this.__isChrome) {
-        //       throw new Error(`
-        // Для слайда "${slide}" нет порядкового номера, по которому приложение должно будет перейти.
-        // Добавь этот номер в "src/pres_config/slidesToOrderRel.js".
-        //      `);
-        // console.log(slideOrder)
-        document.location.pathname = `${presentation}/${presentation}_${slide}.html`;
-      } else {
-        console.log(slide, slideOrder);
-        CTAPPgoToSlide(slideOrder);
-      }
+    const slideOrder = this.__slidesOrder[slide];
+    if (slideOrder === undefined) {
+      throw new Error(`
+      Для слайда "${slide}" нет порядкового номера, по которому приложение должно будет перейти.
+      Добавь этот номер в "src/pres_config/slidesToOrderRel.js".
+           `);
+    }
+    if (this.__isChrome) {
+      console.log(slideOrder);
+      console.log(`${presentation}/${presentation}_${slide}.html`);
+      document.location = `/${presentation}/${presentation}_${slide}.html`;
+    } else {
+      console.log(slide, slideOrder);
+      CTAPPgoToSlide(slideOrder);
+    }
   }
 }
 
