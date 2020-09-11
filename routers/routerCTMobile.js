@@ -20,7 +20,7 @@ class RouterCTMobile extends Router {
       document.location = `/${presentation}/${presentation}_${slide}.html`;
     } else {
       console.log(slide, slideOrder);
-      CTAPPgoToSlide(slideOrder);
+      window.CTAPPgoToSlide(slideOrder);
     }
   }
 }
