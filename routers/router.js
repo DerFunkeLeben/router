@@ -275,12 +275,12 @@ class Router {
     this.__sessionStorageAdapter.setItem('prevPresentation', this.__currPres);
   }
 
-  setReturnToPrevPresentation(slide) {
+  setReturnToPrevPresentation(slide = 'start_01', key = 'az-visits-return-slide') {
     const path = {
       presentation_id: this.__currPres,
-      slide_filename: `${this.__currPres}_${slide ? slide : 'start_01'}.zip`,
+      slide_filename: `${this.__currPres}_${slide}.zip`,
     };
-    this.__sessionStorageAdapter.setItem('az-visits-return-slide', JSON.stringify(path));
+    this.__sessionStorageAdapter.setItem(key, JSON.stringify(path));
   }
 
   //якори
