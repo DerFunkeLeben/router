@@ -257,6 +257,7 @@ class Router {
       this.__historyPush();
     }
 
+    this.__setCurrScen(scen);
     this.__routerAdapter(slide, scen, pres);
   }
 
@@ -264,7 +265,6 @@ class Router {
     let newSlide = `${presentation}_${slide}`;
     let newPres = `${presentation}`;
     console.log(scen);
-    this.__setCurrScen(scen);
     if (this.__isChrome) document.location = `/${newPres}/${newSlide}/index.html#${scen}`;
     else document.location = `veeva:gotoSlide(${newSlide}.zip, ${newPres})`;
   }
