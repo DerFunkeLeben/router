@@ -8,6 +8,7 @@ class RouterCTMobile extends Router {
 
   __routerAdapter(slide, scene, presentation) {
     const slideOrder = this.__slidesOrder[slide];
+    super.__setCurrScen(scen);
     if (slideOrder === undefined) {
       throw new Error(`
       Для слайда "${slide}" нет порядкового номера, по которому приложение должно будет перейти.
