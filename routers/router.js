@@ -62,7 +62,6 @@ class Router {
         } catch (error) {
           console.log('прости кажется там ссылка на DOM-элемент, не могу ее отрендерить');
         }
-        textDiv.innerHTML += `\n<p>${JSON.stringify(args)}<p>`;
         iscrollConsole.refresh();
       };
       console.error = (...args) => {
@@ -260,12 +259,12 @@ class Router {
 
     this.__routerAdapter(slide, scen, pres);
   }
-
+  
   __routerAdapter(slide, scen, presentation) {
     let newSlide = `${presentation}_${slide}`;
     let newPres = `${presentation}`;
-    console.log(scen);
     this.__setCurrScen(scen);
+    console.log(scen);
     if (this.__isChrome) document.location = `/${newPres}/${newSlide}/index.html#${scen}`;
     else document.location = `veeva:gotoSlide(${newSlide}.zip, ${newPres})`;
   }
@@ -276,12 +275,12 @@ class Router {
     this.__sessionStorageAdapter.setItem('prevPresentation', this.__currPres);
   }
 
-  setReturnToPrevPresentation(slide) {
+  setReturnToPrevPresentation(slide = 'start_01', key = 'az-visits-return-slide') {
     const path = {
       presentation_id: this.__currPres,
-      slide_filename: `${this.__currPres}_${slide ? slide : 'start_01'}.zip`,
+      slide_filename: `${this.__currPres}_${slide}.zip`,
     };
-    this.__sessionStorageAdapter.setItem('az-visits-return-slide', JSON.stringify(path));
+    this.__sessionStorageAdapter.setItem(key, JSON.stringify(path));
   }
 
   //якори

@@ -10,7 +10,7 @@ class RouterMiTouch extends Router {
   sessionStorageAdapter() {
     if (Boolean(window.parent.context)) {
       return {
-        getItem: (item) => window.parent.context.presentations[window.parent.getCurrentPresentation()][item],
+        getItem: (item) => window.parent.context.presentations[window.parent.getCurrentPresentation()][item] || null,
         setItem: (item, key) =>
           (window.parent.context.presentations[window.parent.getCurrentPresentation()][item] = key),
       };
