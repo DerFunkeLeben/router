@@ -51,7 +51,7 @@ class Router {
     const consoleDiv = document.querySelector('#console');
     const textDiv = consoleDiv && consoleDiv.querySelector('#text');
     if (!consoleDiv || !textDiv)
-      console.warn(
+      console.log(
         'ВНИМАНИЕ\n в layout.jade отсутсвутет #сonsole и/или #text\n это приведет к невозможности вызвать консоль на планшете!',
       );
     if (!this.__isChrome && consoleDiv && textDiv) {
@@ -259,7 +259,7 @@ class Router {
 
     this.__routerAdapter(slide, scen, pres);
   }
-  
+
   __routerAdapter(slide, scen, presentation) {
     let newSlide = `${presentation}_${slide}`;
     let newPres = `${presentation}`;
