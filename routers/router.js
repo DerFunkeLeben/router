@@ -229,12 +229,12 @@ class Router {
     try {
       if (ribProp) {
         if (typeof ribProp === 'string' && (ribProp.match('function') || ribProp.match('() =>'))) {
-          const tergetRib = this.__getNextSlideByRib(ribProp);
-          if (!tergetRib)
+          const targetRib = this.__getNextSlideByRib(ribProp);
+          if (!targetRib)
             if (slideProp) return this.to(slideProp, this.__currScen, this.__currPres);
             else return this.shakeSlide();
 
-          return this.to(tergetRib.slide, tergetRib.scene, tergetRib.pres);
+          return this.to(targetRib.slide, targetRib.scene, targetRib.pres);
         } else return this.to(ribProp.slide, ribProp.scene, ribProp.pres);
       } else if (slideProp) return this.to(slideProp, this.__currScen, this.__currPres);
       else return console.warn('next slide is null');
@@ -247,24 +247,40 @@ class Router {
   to(slide, scen, presentation) {
     if (slide === this.__currSlide && scen === this.__currScen) return;
     const pres = presentation ? presentation : this.__currPres;
-    if (this.__returnFromPres) {
-      this.__historyPop();
-    }
+
+    const isValidScen = this.__checkValidScen(scen, pres);
+
+    if (!isValidScen)
+      return console.error(
+        `!!!ALERT!!!\n сцена: ${scen} не найдена в сценарии ${this.__currPres} \n попытка перехода будет отклонена`,
+      );
+
+    if (this.__returnFromPres) this.__historyPop();
+
     if (this.__returnFromAnchor || this.__returnFromPres) {
       this.__returnFromAnchor = false;
       this.__returnFromPres = false;
-    } else {
-      this.__historyPush();
-    }
+    } else this.__historyPush();
 
     this.__routerAdapter(slide, scen, pres);
+  }
+
+  __checkValidScen(scen, presentation) {
+    const currPres = this.__allPres[presentation];
+    console.log(currPres, !currPres);
+    if (!Boolean(currPres)) {
+      console.warn(`Attention \n ты хочешь перейти в другую презу, я не могу проверить, есть ли там ветка:${scen}`);
+      return true;
+    }
+    const listOfAvaibleScensInPres = Object.keys(currPres.scenario);
+    return listOfAvaibleScensInPres.includes(scen);
   }
 
   __routerAdapter(slide, scen, presentation) {
     let newSlide = `${presentation}_${slide}`;
     let newPres = `${presentation}`;
+
     this.__setCurrScen(scen);
-    console.log(scen);
     if (this.__isChrome) document.location = `/${newPres}/${newSlide}/index.html#${scen}`;
     else document.location = `veeva:gotoSlide(${newSlide}.zip, ${newPres})`;
   }
