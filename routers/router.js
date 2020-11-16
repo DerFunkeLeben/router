@@ -124,6 +124,7 @@ class Router {
   }
 
   __getNextSlideOnCustomBranchOff() {
+    //метод для поиска следующего слайда кастомной ветки, если находишься не на ней
     const scenario = router.__allPres[router.__currPres].scenario.customBranch;
     const prevSlides = JSON.parse(sessionStorage.getItem('historyArr'));
     const prevSlide = prevSlides[prevSlides.length - 1];
