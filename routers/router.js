@@ -180,7 +180,7 @@ class Router {
     return newStore;
   }
 
-  getStoreItem(key) {
+  getStoreItem(key = this.__currSlide) {
     if (this.__slideStore)
       if (key) return this.__slideStore[key];
       else return this.__slideStore;
