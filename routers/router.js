@@ -94,7 +94,7 @@ class Router {
   __getSlideInfo() {
     try {
       //первый вход в презу, установка ветки 'default'
-      if (!this.__currScen) this.__currScen = this.__defaultScene;
+      if (!this.__currScen || this.__currScen === 'undefined') this.__currScen = this.__defaultScene;
 
       //режим верстки
       if (this.__currPres === '') return;
