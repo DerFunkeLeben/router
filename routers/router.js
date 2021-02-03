@@ -210,6 +210,7 @@ class Router {
 
   goNextSlide() {
     this.__goNeighbour(this.__nextSlide, this.__rib);
+    !this.__flagList.includes('SWIPE_RIGHT_WORK_WITH_SCEN_NO_HISTORY') && this.resetStore();
   }
 
   goPrevSlide() {
