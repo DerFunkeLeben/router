@@ -184,6 +184,10 @@ class Router {
     this.setStoreItem(this.__currSlide, null);
   }
 
+  saveStore() {
+    this.__flagList = [...this.__flagList, 'SWIPE_RIGHT_WORK_WITH_SCEN_NO_HISTORY'];
+  }
+
   getStoreItem(key = this.__currSlide) {
     if (this.__slideStore)
       if (key) return this.__slideStore[key];
