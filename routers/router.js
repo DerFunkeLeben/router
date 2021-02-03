@@ -210,6 +210,7 @@ class Router {
 
   goNextSlide() {
     this.__goNeighbour(this.__nextSlide, this.__rib);
+    this.__nextSlide === null && this.__rib === null && this.shakeSlide();
 
     !this.__flagList.includes('SWIPE_RIGHT_WORK_WITH_SCEN_NO_HISTORY') &&
       !this.__flagList.includes('SAVE_STORE') &&
