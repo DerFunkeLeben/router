@@ -180,12 +180,8 @@ class Router {
     return newStore;
   }
 
-  resetStore() {
-    this.setStoreItem(this.__currSlide, null);
-  }
-
   saveStore() {
-    this.__flagList = [...this.__flagList, 'SWIPE_RIGHT_WORK_WITH_SCEN_NO_HISTORY'];
+    this.__flagList.push('SAVE_STORE');
   }
 
   getStoreItem(key = this.__currSlide) {
@@ -214,7 +210,12 @@ class Router {
 
   goNextSlide() {
     this.__goNeighbour(this.__nextSlide, this.__rib);
-    !this.__flagList.includes('SWIPE_RIGHT_WORK_WITH_SCEN_NO_HISTORY') && this.resetStore();
+
+    !this.__flagList.includes('SWIPE_RIGHT_WORK_WITH_SCEN_NO_HISTORY') &&
+      !this.__flagList.includes('SAVE_STORE') &&
+      this.setStoreItem(this.__currSlide, null);
+
+    this.__flagList.filter((flag) => flag !== 'SAVE_STORE');
   }
 
   goPrevSlide() {
