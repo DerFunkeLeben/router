@@ -10,7 +10,8 @@ class RouterPitcher extends Router {
     const newSlide = `${presentation}_${slide}`;
     super.__setCurrScen(scen);
 
-    document.location = `${this.hrefOrigin}/${presentation}/${newSlide}/${newSlide}.html#${scen}`;
+    if (this.__isChrome) document.location = `/${presentation}/${newSlide}/${newSlide}.html#${scen}`;
+    else document.location = `${this.hrefOrigin}/${presentation}/${newSlide}/${newSlide}.html#${scen}`;
   }
 }
 
