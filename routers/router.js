@@ -242,6 +242,8 @@ class Router {
       if (ribProp) {
         if (typeof ribProp === 'string' && (ribProp.match('function') || ribProp.match('() =>'))) {
           const targetRib = this.__getNextSlideByRib(ribProp);
+          if (typeof targetRib === 'string' && targetRib.toLowerCase() === 'stop') return this.shakeSlide();
+
           if (!targetRib)
             if (slideProp) return this.to(slideProp, this.__currScen, this.__currPres);
             else return this.shakeSlide();
