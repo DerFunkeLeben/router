@@ -1,6 +1,8 @@
 class Router {
   constructor(settings) {
+    console.log('-----> settings Router <-----');
     console.log(settings);
+    console.log('------------------------------');
     this.__isChrome = navigator.vendor === 'Google Inc.';
     this.__redefinitionConsole();
     this.__sessionStorageAdapter = this.sessionStorageAdapter();
@@ -9,7 +11,7 @@ class Router {
     this.__allPres = settings.allPres;
     this.__defaultScene = 'default';
     this.__currPres = settings.currPres;
-    this.__currPresConfig = this.__allPres[this.__currPres];
+    this.__currPresConfig = this.__allPres ? this.__allPres[this.__currPres] : null;
     this.__currScen =
       settings.currScen || this.__sessionStorageAdapter.getItem('currScen') || document.location.hash.replace('#', '');
     this.__currSlide = settings.currSlide;
@@ -17,7 +19,7 @@ class Router {
     this.__slideStore = JSON.parse(this.__sessionStorageAdapter.getItem('slideStore')) || {};
     this.__customBranch = JSON.parse(this.__sessionStorageAdapter.getItem('customBranch')) || [];
     this.__addCustomBranchToPres();
-    this.__getSlideInfo();
+    !settings.isRouter && this.__getSlideInfo();
     this.__consolePassword = ['up', 'up', 'down', 'up', 'down', 'down'];
     this.__consolePasswordInput = [];
     this.__consoleActive = JSON.parse(this.__sessionStorageAdapter.getItem('consoleActive')) || false;
@@ -51,9 +53,10 @@ class Router {
     const consoleDiv = document.querySelector('#console');
     const textDiv = consoleDiv && consoleDiv.querySelector('#text');
     if (!consoleDiv || !textDiv)
-      console.log(
-        'ВНИМАНИЕ\n в layout.jade отсутсвутет #сonsole и/или #text\n это приведет к невозможности вызвать консоль на планшете!',
-      );
+      this.__allPres &&
+        console.log(
+          'ВНИМАНИЕ\n в layout.jade отсутсвутет #сonsole и/или #text\n это приведет к невозможности вызвать консоль на планшете!',
+        );
     if (!this.__isChrome && consoleDiv && textDiv) {
       const iscrollConsole = new window.IScroll(consoleDiv);
       console.log = (...args) => {
