@@ -23,11 +23,11 @@ class RouterStada extends Router {
     return scene;
   }
 
-  setStoreItem(key = this._currSlide, value) {
+  setStoreItem(key, value) {
     return (this._slideStore = { ...this._slideStore, [key]: value });
   }
 
-  getStoreItem(key = this._currSlide) {
+  getStoreItem(key) {
     if (key) return this._slideStore[key];
     else return this._slideStore;
   }
@@ -43,6 +43,7 @@ class RouterStada extends Router {
     const isVisit = this.getQueryVariable('isVisit');
     this._history.push(`${slide}?scene=${flow || this._sceneName}&isVisit=${isVisit}`);
     this._currSlide = slide;
+    this.setStoreItem(slide, null);
   }
 
   getSlide(turn) {
