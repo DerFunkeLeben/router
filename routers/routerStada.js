@@ -11,6 +11,7 @@ class RouterStada extends Router {
     this._sceneName = 'default';
     this._slideStore = {};
     this._menuIsOpen = false;
+    this._resetStore = true;
     this.getQueryVariable = settings.getQueryVariable;
     settings.history.listen((location) => {
       this._currSlide = location.pathname.replace('/', '');
@@ -32,6 +33,10 @@ class RouterStada extends Router {
     else return this._slideStore;
   }
 
+  saveStore() {
+    this._resetStore = false
+  }
+
   to(slide, flow) {
     if (flow) {
       this._scene = this._scenObj[flow];
@@ -43,7 +48,8 @@ class RouterStada extends Router {
     const isVisit = this.getQueryVariable('isVisit');
     this._history.push(`${slide}?scene=${flow || this._sceneName}&isVisit=${isVisit}`);
     this._currSlide = slide;
-    this.setStoreItem(slide, null);
+    this._resetStore && this.setStoreItem(slide, null);
+    this._resetStore = true;
   }
 
   getSlide(turn) {
