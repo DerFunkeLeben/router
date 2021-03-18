@@ -3,29 +3,33 @@ class Router {
     console.log('-----> settings Router <-----');
     console.log(settings);
     console.log('------------------------------');
-    this.__isChrome = navigator.vendor === 'Google Inc.';
-    this.__redefinitionConsole();
-    this.__sessionStorageAdapter = this.sessionStorageAdapter();
-    this.__checkNeedConsole('init');
-    this.__archivePresId = settings.archivePresId;
-    this.__allPres = settings.allPres;
-    this.__defaultScene = 'default';
-    this.__currPres = settings.currPres;
-    this.__currPresConfig = this.__allPres ? this.__allPres[this.__currPres] : null;
-    this.__currScen =
-      settings.currScen || this.__sessionStorageAdapter.getItem('currScen') || document.location.hash.replace('#', '');
-    this.__currSlide = settings.currSlide;
-    this.__isDopSlide = JSON.parse(this.__sessionStorageAdapter.getItem('isDopSlide')) || false;
-    this.__slideStore = JSON.parse(this.__sessionStorageAdapter.getItem('slideStore')) || {};
-    this.__customBranch = JSON.parse(this.__sessionStorageAdapter.getItem('customBranch')) || [];
-    this.__addCustomBranchToPres();
-    !settings.isRouter && this.__getSlideInfo();
-    this.__consolePassword = ['up', 'up', 'down', 'up', 'down', 'down'];
-    this.__consolePasswordInput = [];
-    this.__consoleActive = JSON.parse(this.__sessionStorageAdapter.getItem('consoleActive')) || false;
-    this.__returnFromAnchor = false;
-    this.__returnFromPres = false;
-    this.__flagList = settings.routerFlags || [];
+    if (!settings.isReact) {
+      this.__isChrome = navigator.vendor === 'Google Inc.';
+      this.__redefinitionConsole();
+      this.__sessionStorageAdapter = this.sessionStorageAdapter();
+      this.__checkNeedConsole('init');
+      this.__archivePresId = settings.archivePresId;
+      this.__allPres = settings.allPres;
+      this.__defaultScene = 'default';
+      this.__currPres = settings.currPres;
+      this.__currPresConfig = this.__allPres ? this.__allPres[this.__currPres] : null;
+      this.__currScen =
+        settings.currScen ||
+        this.__sessionStorageAdapter.getItem('currScen') ||
+        document.location.hash.replace('#', '');
+      this.__currSlide = settings.currSlide;
+      this.__isDopSlide = JSON.parse(this.__sessionStorageAdapter.getItem('isDopSlide')) || false;
+      this.__slideStore = JSON.parse(this.__sessionStorageAdapter.getItem('slideStore')) || {};
+      this.__customBranch = JSON.parse(this.__sessionStorageAdapter.getItem('customBranch')) || [];
+      this.__addCustomBranchToPres();
+      this.__getSlideInfo();
+      this.__consolePassword = ['up', 'up', 'down', 'up', 'down', 'down'];
+      this.__consolePasswordInput = [];
+      this.__consoleActive = JSON.parse(this.__sessionStorageAdapter.getItem('consoleActive')) || false;
+      this.__returnFromAnchor = false;
+      this.__returnFromPres = false;
+      this.__flagList = settings.routerFlags || [];
+    }
   }
 
   sessionStorageAdapter() {

@@ -3,10 +3,10 @@ const Router = require('./router');
 class RouterStada extends Router {
   constructor(settings) {
     super(settings);
-    this._scenObj = settings.scenObj;
+    this._scenario = settings.scenario;
     this._history = settings.history;
     this._currSlide = this._history.location.pathname.replace('/', '');
-    this._scene = settings.scenObj['default'];
+    this._scene = settings.scenario['default'];
     this._ribs = settings.ribs;
     this._sceneName = 'default';
     this._slideStore = {};
@@ -34,12 +34,12 @@ class RouterStada extends Router {
   }
 
   saveStore() {
-    this._resetStore = false
+    this._resetStore = false;
   }
 
   to(slide, flow) {
     if (flow) {
-      this._scene = this._scenObj[flow];
+      this._scene = this._scenario[flow];
       if (flow !== this._sceneName) {
         this._prevSceneName = this._sceneName;
         this._sceneName = flow;
@@ -58,7 +58,7 @@ class RouterStada extends Router {
     let nextSlide = this._scene[nextIdx];
 
     if (currIdx === 0 && turn === 'prev') {
-      const homeSlide = this._scenObj['default'];
+      const homeSlide = this._scenario['default'];
       nextSlide = homeSlide;
     }
     return nextSlide === null ? undefined : nextSlide;
@@ -113,7 +113,7 @@ class RouterStada extends Router {
   }
 
   findSetScene() {
-    this._scene = this._scenObj[this._sceneName];
+    this._scene = this._scenario[this._sceneName];
   }
 }
 
