@@ -64,29 +64,39 @@ class RouterStada extends Router {
     return nextSlide === null ? undefined : nextSlide;
   }
 
+  goRib(rib) {
+    if (typeof rib === 'string') return this.to(this._scenario[rib][0], rib);
+    else if (rib.slide) return this.to(rib.slide, rib.scene);
+    else return this.to(this._scenario[rib.scene][0], rib.scene);
+  }
+
   next() {
     this.findSetScene();
 
     const nextSlide = this.getSlide('next');
+    !nextSlide && this.shakeSlide();
     if (this._ribs[this._currSlide] && this._ribs[this._currSlide].next === null) {
+      this.shakeSlide();
       return;
     }
     if (this._ribs[this._currSlide] && this._ribs[this._currSlide].next) {
       if (typeof this._ribs[this._currSlide].next === 'function') {
         if (this._ribs[this._currSlide].next() === null || this._ribs[this._currSlide].next() === undefined) {
+          this.shakeSlide();
           return;
         }
         if (this._ribs[this._currSlide].next() === 'next' && nextSlide === undefined) {
+          this.shakeSlide();
           return;
         }
         if (this._ribs[this._currSlide].next() === 'next' && nextSlide !== undefined) {
           return this.to(nextSlide, this._sceneName);
         }
-        const { slide, scene } = this._ribs[this._currSlide].next();
-        return this.to(slide, scene);
+        const rib = this._ribs[this._currSlide].next();
+        this.goRib(rib);
       } else {
-        const { slide, scene } = this._ribs[this._currSlide].next;
-        return this.to(slide, scene);
+        const rib = this._ribs[this._currSlide].next;
+        this.goRib(rib);
       }
     }
 
@@ -102,11 +112,11 @@ class RouterStada extends Router {
     if (this._ribs[this._currSlide] && this._ribs[this._currSlide].prev) {
       if (typeof this._ribs[this._currSlide].prev === 'function') {
         if (this._ribs[this._currSlide].prev() === null) return;
-        const { slide, scene } = this._ribs[this._currSlide].prev();
-        return this.to(slide, scene);
+        const rib = this._ribs[this._currSlide].prev();
+        this.goRib(rib);
       } else {
-        const { slide, scene } = this._ribs[this._currSlide].prev;
-        return this.to(slide, scene);
+        const rib = this._ribs[this._currSlide].prev;
+        this.goRib(rib);
       }
     }
     this._history.goBack();
@@ -114,6 +124,13 @@ class RouterStada extends Router {
 
   findSetScene() {
     this._scene = this._scenario[this._sceneName];
+  }
+
+  shakeSlide() {
+    console.log('s');
+    const slide = document.querySelector('.slide');
+    slide.classList.add('shake');
+    setTimeout(() => slide.classList.remove('shake'), 1000);
   }
 }
 
