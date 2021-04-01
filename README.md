@@ -13,15 +13,15 @@
 ## Главный роутер
 Создает объект с информацией о презентации и текущем слайде. К этой информации можно всегда обратиться:
 
-allPres: {nexium_pediatria_2021_1: {…}} // pres_config собранных презентаций
-currPres: "nexium_pediatria_2021_1"
-currScen: "" // текущая ветка. информация записывается в sessionStorage
-currSlide: "nex_0121_p1" // текущий слайд. 
-isChrome: true
-mainScen: "" информация записывается в sessionStorage
-mainSlide: "" информация записывается в sessionStorage
-routerFlags: [] // флаги, указывающие на поведение роутера. 'SAVE_STORE' / 'SWIPE_RIGHT_WORK_WITH_SCEN_NO_HISTORY' - говорит: ходи назад только по сценарию, а не по истории / 'DONT_USE_PRES_ID' // записываются в configuration.js
-swipeOn: true
+allPres: {nexium_pediatria_2021_1: {…}} // pres_config собранных презентаций  
+currPres: "nexium_pediatria_2021_1"  
+currScen: "" // текущая ветка. информация записывается в sessionStorage  
+currSlide: "nex_0121_p1" // текущий слайд.   
+isChrome: true  
+mainScen: "" информация записывается в sessionStorage  
+mainSlide: "" информация записывается в sessionStorage  
+routerFlags: [] // флаги, указывающие на поведение роутера. 'SAVE_STORE' / 'SWIPE_RIGHT_WORK_WITH_SCEN_NO_HISTORY' - говорит: ходи назад только по сценарию, а не по истории / 'DONT_USE_PRES_ID' // записываются в configuration.js  
+swipeOn: true  
 
 
 Чтобы получить информацию выше, нужно обратиться к приватным полям роутера (ай-ай-ай), например window.router__currScen, window.router__flagList. Но к текущий слайд и текущая презентация хранятся в CURRENT_SLIDE и CURRENT_PRESENTATION
