@@ -3,7 +3,7 @@ class Router {
     console.log('-----> settings Router <-----');
     console.log(settings);
     console.log('------------------------------');
-    if (!settings.isReact) {
+    if (!settings.isStada) {
       this.__isChrome = navigator.vendor === 'Google Inc.';
       this.__redefinitionConsole();
       this.__sessionStorageAdapter = this.sessionStorageAdapter();
