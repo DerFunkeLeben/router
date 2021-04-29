@@ -94,9 +94,11 @@ class RouterStada extends Router {
         }
         const rib = this._ribs[this._currSlide].next();
         this.goRib(rib);
+        return;
       } else {
         const rib = this._ribs[this._currSlide].next;
         this.goRib(rib);
+        return;
       }
     }
 
