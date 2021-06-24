@@ -66,13 +66,11 @@ class RouterStada extends Router {
 
   goRib(rib) {
     if (typeof rib === 'string') return this.to(this._scenario[rib][0], rib);
-    else if (rib.slide) return this.to(rib.slide, rib.scene);
-    else return this.to(this._scenario[rib.scene][0], rib.scene);
+    if (typeof rib === 'object') return this.to(rib.slide, rib.scene);
   }
 
   next() {
     this.findSetScene();
-
     const nextSlide = this.getSlide('next');
     !nextSlide && this.shakeSlide();
     if (this._ribs[this._currSlide] && this._ribs[this._currSlide].next === null) {
@@ -93,12 +91,10 @@ class RouterStada extends Router {
           return this.to(nextSlide, this._sceneName);
         }
         const rib = this._ribs[this._currSlide].next();
-        this.goRib(rib);
-        return;
+        return this.goRib(rib);
       } else {
         const rib = this._ribs[this._currSlide].next;
-        this.goRib(rib);
-        return;
+        return this.goRib(rib);
       }
     }
 
