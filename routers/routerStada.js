@@ -12,10 +12,12 @@ class RouterStada extends Router {
     this._slideStore = {};
     this._menuIsOpen = false;
     this._resetStore = true;
+    this.statistics = settings.statistics;
     this.getQueryVariable = settings.getQueryVariable;
     settings.history.listen((location) => {
       this._currSlide = location.pathname.replace('/', '');
       this._sceneName = this.getSearchParams(location.search);
+      this.statistics && this.statistics.saveSlideOpen(this._currSlide);
     });
   }
   getSearchParams(query) {
