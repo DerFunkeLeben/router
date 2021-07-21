@@ -2,15 +2,15 @@ const Router = require('./router');
 const { registerHandleSurveyClick, registerSurveyListner, isSlideWithStats, getSurveyJSON } = require('../oceSurvey');
 
 function getDataFromConfig() {
-  if (navigator.vendor === 'Google Inc.') return {};
-  /*
-   * OCE имеет тупой способ прокидывания инфы в слайд
-   * у них есть глобальный объект window.CLMPlayer, но инфу они закидывают в html заменяя текст '{{{.}}}' на json
-   * в общем мы тут ждем когда текст заменится на json и парсим его записывая в window, чтобы было проще работать
-   */
-  const data = document.querySelector('#config');
-  while (data.innerHTML === '{{{.}}}') {}
-  return (window.configData = JSON.parse(data.innerHTML));
+  // if (navigator.vendor === 'Google Inc.') return {};
+
+  // const data = document.querySelector('#config');
+  // while (data.innerHTML === '{{{.}}}') {}
+  // return (window.configData = JSON.parse(data.innerHTML));
+
+  if ('Google Inc.' === navigator.vendor) return {};
+
+  return window.configData;
 }
 
 function getDataFromGlobalState() {
