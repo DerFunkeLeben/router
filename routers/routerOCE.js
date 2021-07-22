@@ -9,7 +9,8 @@ function getDataFromConfig() {
   // return (window.configData = JSON.parse(data.innerHTML));
 
   if ('Google Inc.' === navigator.vendor) return {};
-
+  const data = document.querySelector('script[id=config]');
+  while (data.innerHTML === 'window.configData = {{{.}}};') {}
   return window.configData;
 }
 
