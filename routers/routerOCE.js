@@ -2,12 +2,6 @@ const Router = require('./router');
 const { registerHandleSurveyClick, registerSurveyListner, isSlideWithStats, getSurveyJSON } = require('../oceSurvey');
 
 function getDataFromConfig() {
-  // if (navigator.vendor === 'Google Inc.') return {};
-
-  // const data = document.querySelector('#config');
-  // while (data.innerHTML === '{{{.}}}') {}
-  // return (window.configData = JSON.parse(data.innerHTML));
-
   if ('Google Inc.' === navigator.vendor) return {};
   const data = document.querySelector('script[id=config]');
   while (data.innerHTML === 'window.configData = {{{.}}};') {}
