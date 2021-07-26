@@ -17,7 +17,7 @@ class RouterStada extends Router {
     settings.history.listen((location) => {
       this._currSlide = location.pathname.replace('/', '');
       this._sceneName = this.getSearchParams(location.search);
-      this.statistics && this.statistics.saveSlideOpen(this._currSlide);
+      this.statistics.saveSlideOpen && this.statistics.saveSlideOpen(this._currSlide);
     });
   }
   getSearchParams(query) {
