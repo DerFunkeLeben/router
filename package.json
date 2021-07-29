@@ -16,8 +16,5 @@
     "url": "https://github.com/onpoint-dev/mpa-router/issues"
   },
   "homepage": "https://github.com/onpoint-dev/mpa-router#readme",
-  "dependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1"
-  }
+  "dependencies": {}
 }
