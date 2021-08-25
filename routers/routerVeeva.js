@@ -14,7 +14,7 @@ class RouterVeeva extends Router {
     if (this.__isChrome) document.location = `/${presentation}/${newSlide}/index.html#${scen}`;
     else {
       if (this.__flagList.includes('DONT_USE_PRES_ID')) document.location = `veeva:gotoSlide(${newSlide}.zip)`;
-      else document.location = `veeva:gotoSlide(${newSlide}.zip, ${presentation})`;
+      else com.veeva.clm.gotoSlide(`${newSlide}.zip`, `${presentation}`);
     }
   }
 }
