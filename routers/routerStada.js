@@ -17,7 +17,7 @@ class RouterStada extends Router {
     settings.history.listen((location) => {
       this._currSlide = location.pathname.replace('/', '');
       this._sceneName = this.getSearchParams(location.search);
-      this.statistics.saveSlideOpen && this.statistics.saveSlideOpen(this._currSlide);
+      this.statistics && this.statistics.saveSlideOpen && this.statistics.saveSlideOpen(this._currSlide);
     });
   }
   getSearchParams(query) {
@@ -113,10 +113,10 @@ class RouterStada extends Router {
       if (typeof this._ribs[this._currSlide].prev === 'function') {
         if (this._ribs[this._currSlide].prev() === null) return;
         const rib = this._ribs[this._currSlide].prev();
-        this.goRib(rib);
+        return this.goRib(rib);
       } else {
         const rib = this._ribs[this._currSlide].prev;
-        this.goRib(rib);
+        return this.goRib(rib);
       }
     }
     this._history.goBack();
