@@ -6,6 +6,7 @@ import RouterCTMobile from './routers/routerCTMobile';
 import RouterResco from './routers/routerResco';
 import RouterStada from './routers/routerStada';
 import RouterPitcher from './routers/routerPitcher';
+import RouterWhitebox from './routers/routerWhitebox';
 export {
   RouterMiTouch,
   RouterOCE,
@@ -15,4 +16,5 @@ export {
   RouterResco,
   RouterStada,
   RouterPitcher,
+  RouterWhitebox,
 };
