@@ -12,7 +12,10 @@ class RouterVeevaLegacy extends Router {
     const newSlide = `${presentation}_${slide}`;
     super.__setCurrScen(scen);
     if (this.__isChrome) document.location = `/${presentation}/${newSlide}/${newSlide}.html#${scen}`;
-    else com.veeva.clm.gotoSlide(`${newSlide}.zip`, `${presentation}`);
+    else {
+      if (this.__flagList.includes('DONT_USE_PRES_ID')) document.location = `veeva:gotoSlide(${newSlide}.zip)`;
+      else document.location = `veeva:gotoSlide(${newSlide}.zip, ${presentation})`;
+    }
   }
 }
 
