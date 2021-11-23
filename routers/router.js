@@ -93,11 +93,12 @@ class Router {
 
   __showConsole() {
     const consoleDiv = document.querySelector('#console');
+    const version = document.querySelector('#version');
     consoleDiv.classList.add('console_active');
     this.__consoleActive = true;
     this.__sessionStorageAdapter.setItem('consoleActive', 'true');
-    if (!this.__isChrome && consoleDiv && window.VERSION)
-      consoleDiv.innerHTML += `\n<p class="version"><span>version:</span> ${window.VERSION}<p>`;
+    if (!this.__isChrome && version && window.VERSION)
+      version.innerHTML = `<p><span>version:</span> ${window.VERSION}</p>`;
   }
 
   __getSlideInfo() {
