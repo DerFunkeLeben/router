@@ -96,6 +96,8 @@ class Router {
     consoleDiv.classList.add('console_active');
     this.__consoleActive = true;
     this.__sessionStorageAdapter.setItem('consoleActive', 'true');
+    if (!this.__isChrome && consoleDiv && window.VERSION)
+      consoleDiv.innerHTML += `\n<p class="version"><span>version:</span> ${window.VERSION}<p>`;
   }
 
   __getSlideInfo() {
