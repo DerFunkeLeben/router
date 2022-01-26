@@ -15,7 +15,7 @@ class RouterCTMobile extends Router {
       Добавь этот номер в "src/pres_config/slidesToOrderRel.js".
            `);
     }
-    if (this.__isChrome) {
+    if (this.__isChrome && !window.CTAPPgoToSlide) {
       console.log(slideOrder);
       console.log(`${presentation}/${presentation}_${slide}.html`);
       document.location = `/${presentation}/${presentation}_${slide}.html`;
