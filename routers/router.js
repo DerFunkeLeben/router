@@ -250,16 +250,26 @@ class Router {
   __goNeighbour(slideProp, ribProp) {
     try {
       if (ribProp) {
-        if (typeof ribProp === 'string' && (ribProp.match('function') || ribProp.match('() =>'))) {
+        const ribIsFunction = typeof ribProp === 'string' && (ribProp.match('function') || ribProp.match('() =>'));
+        const ribIsObject = typeof ribProp === 'object';
+        const ribIsString = typeof ribProp === 'string' && !ribIsFunction;
+        if (ribIsFunction) {
           const targetRib = this.__getNextSlideByRib(ribProp);
-          if (typeof targetRib === 'string' && targetRib.toLowerCase() === 'stop') return this.shakeSlide();
+          if (typeof targetRib === 'string') {
+            if (targetRib.toLowerCase() === 'stop') return this.shakeSlide();
+            if (targetRib.toLowerCase() === 'next')
+              return slideProp ? this.to(slideProp, this.__currScen) : this.shakeSlide();
+
+            return this.to(this.__currPresConfig.scenario[targetRib][0], targetRib);
+          }
 
           if (!targetRib)
             if (slideProp) return this.to(slideProp, this.__currScen, this.__currPres);
             else return this.shakeSlide();
 
           return this.to(targetRib.slide, targetRib.scene, targetRib.pres);
-        } else return this.to(ribProp.slide, ribProp.scene, ribProp.pres);
+        } else if (ribIsObject) return this.to(ribProp.slide, ribProp.scene, ribProp.pres);
+        else if (ribIsString) return this.to(this.__currPresConfig.scenario[ribProp][0], ribProp);
       } else if (slideProp) return this.to(slideProp, this.__currScen, this.__currPres);
       else return console.warn('next slide is null');
     } catch (error) {
