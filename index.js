@@ -7,6 +7,8 @@ import RouterResco from './routers/routerResco';
 import RouterStada from './routers/routerStada';
 import RouterPitcher from './routers/routerPitcher';
 import RouterWhitebox from './routers/routerWhitebox';
+import RouterTerrasoft from './routers/routerTerrasoft';
+
 export {
   RouterMiTouch,
   RouterOCE,
@@ -17,4 +19,5 @@ export {
   RouterStada,
   RouterPitcher,
   RouterWhitebox,
+  RouterTerrasoft,
 };

@@ -125,13 +125,6 @@ class RouterStada extends Router {
   findSetScene() {
     this._scene = this._scenario[this._sceneName];
   }
-
-  shakeSlide() {
-    console.log('s');
-    const slide = document.querySelector('.slide');
-    slide.classList.add('shake');
-    setTimeout(() => slide.classList.remove('shake'), 1000);
-  }
 }
 
 module.exports = RouterStada;
