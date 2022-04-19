@@ -8,6 +8,7 @@ import RouterStada from './routers/routerStada';
 import RouterPitcher from './routers/routerPitcher';
 import RouterWhitebox from './routers/routerWhitebox';
 import RouterTerrasoft from './routers/routerTerrasoft';
+import RouterProxima from './routers/routerProxima';
 
 export {
   RouterMiTouch,
@@ -20,4 +21,5 @@ export {
   RouterPitcher,
   RouterWhitebox,
   RouterTerrasoft,
+  RouterProxima,
 };
